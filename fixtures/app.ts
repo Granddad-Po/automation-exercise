@@ -1,21 +1,25 @@
 import { test as base } from '@playwright/test';
 import { MainPage } from '../pages/MainPage';
+import { LoginPage } from '../pages/LoginPage';
 
 // Declare the types of your fixtures.
-type MyFixtures = {
-  mainPage: MainPage;
+type App = {
+  main: MainPage;
+  login: LoginPage;
 };
 
 // Extend base test by providing "todoPage" and "settingsPage".
 // This new "test" can be used in multiple test files, and each of them will get the fixtures.
-export const test = base.extend<MyFixtures>({
-  mainPage: async ({ page }, use) => {
+export const test = base.extend<{ app: App }>({
+  app: async ({ page }, use) => {
     // Set up the fixture.
-    const mainPage = new MainPage(page);
-    await mainPage.openMainPage();
+    const app = {
+      main: new MainPage(page),
+      login: new LoginPage(page),
+    };
 
     // Use the fixture value in the test.
-    await use(mainPage);
+    await use(app);
   },
 });
 export { expect } from '@playwright/test';
