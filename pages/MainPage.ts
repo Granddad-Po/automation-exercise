@@ -1,18 +1,27 @@
 import { Locator, Page, expect } from '@playwright/test';
 
-class MainPage {
+export class MainPage {
   readonly page: Page;
-  readonly mainPageLogo: Locator;
+  readonly logoLink: Locator;
+  readonly loginLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.mainPageLogo = this.page.getByRole('img', {
-      name: 'Website for automation practice',
+    this.logoLink = this.page.getByRole('link', {
+      name: 'Website for automation',
     });
+    this.loginLink = this.page.getByRole('link', { name: 'Signup / Login' });
   }
 
   async openMainPage() {
     await this.page.goto('https://automationexercise.com/');
-    await expect(this.mainPageLogo).toBeVisible;
+    await expect(this.page).toHaveURL('https://automationexercise.com/');
+    await expect(this.logoLink).toBeVisible();
+  }
+  async checkLoginLinkVisability() {
+    await expect(this.loginLink).toBeVisible();
+  }
+  async clickLoginLink() {
+    await this.loginLink.click();
   }
 }
