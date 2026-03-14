@@ -1,4 +1,5 @@
 import { Locator, Page, expect } from '@playwright/test';
+import { User } from '../types/user';
 
 export class LoginPage {
   readonly page: Page;
@@ -32,18 +33,18 @@ export class LoginPage {
     await expect(this.signupTitle).toBeVisible();
   }
 
-  async fillNameSignup() {
-    await this.signupNameInput.fill('test98765');
-  }
-  async fillEmailSignup() {
-    await this.signupEmailInput.fill('test98765@mail.ru');
-  }
+  //TODO: Переписать форму регистрации (Принимать данные через аргументы)
 
-  async checkFilledSignupForm() {
-    await expect(this.signupNameInput).toHaveValue('test98765');
-    await expect(this.signupEmailInput).toHaveValue('test98765@mail.ru');
+  async fillNameSignup(name: string) {
+    await this.signupNameInput.fill(name);
   }
-
+  async fillEmailSignup(email: string) {
+    await this.signupEmailInput.fill(email);
+  }
+  async checkFilledSignupForm(user: Pick<User, 'name' | 'email'>) {
+    await expect(this.signupNameInput).toHaveValue(user.name);
+    await expect(this.signupEmailInput).toHaveValue(user.email);
+  }
   async clickSignupButton() {
     await this.signupButton.click();
   }

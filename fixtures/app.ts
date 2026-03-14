@@ -1,11 +1,13 @@
 import { test as base } from '@playwright/test';
 import { MainPage } from '../pages/MainPage';
 import { LoginPage } from '../pages/LoginPage';
+import { SignupPage } from '../pages/SignupPage';
 
 // Declare the types of your fixtures.
 type App = {
   main: MainPage;
   login: LoginPage;
+  signup: SignupPage;
 };
 
 // Extend base test by providing "todoPage" and "settingsPage".
@@ -16,6 +18,7 @@ export const test = base.extend<{ app: App }>({
     const app = {
       main: new MainPage(page),
       login: new LoginPage(page),
+      signup: new SignupPage(page),
     };
 
     // Use the fixture value in the test.
