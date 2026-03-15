@@ -19,7 +19,7 @@ export class MainPage {
     await this.page.goto('https://automationexercise.com/');
     await expect(this.logoLink).toBeVisible();
   }
-  async checkSignupLoginLinkVisible() {
+  async expectSignupLoginLinkVisible() {
     await expect(this.signupLoginLink).toBeVisible();
   }
   async clickSignupLoginLink() {

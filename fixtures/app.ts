@@ -20,6 +20,7 @@ export const test = base.extend<{ app: App }>({
       login: new LoginPage(page),
       signup: new SignupPage(page),
     };
+    await app.main.openMainPage();
 
     // Use the fixture value in the test.
     await use(app);

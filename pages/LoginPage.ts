@@ -29,11 +29,9 @@ export class LoginPage {
     this.signupButton = this.page.getByRole('button', { name: 'Signup' });
   }
 
-  async checkLoginPageVisible() {
+  async expectLoginPageVisible() {
     await expect(this.signupTitle).toBeVisible();
   }
-
-  //TODO: Переписать форму регистрации (Принимать данные через аргументы)
 
   async fillNameSignup(name: string) {
     await this.signupNameInput.fill(name);
@@ -47,5 +45,10 @@ export class LoginPage {
   }
   async clickSignupButton() {
     await this.signupButton.click();
+  }
+  async fillSignupForm(user: Pick<User, 'name' | 'email'>) {
+    await this.fillNameSignup(user.name);
+    await this.fillEmailSignup(user.email);
+    await this.checkFilledSignupForm(user);
   }
 }

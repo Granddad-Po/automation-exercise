@@ -25,6 +25,11 @@ export class SignupPage {
   readonly zipcodeInput: Locator;
   readonly mobileNumberInput: Locator;
   readonly createAccountButton: Locator;
+  readonly accountCreatedText: Locator;
+  readonly continueLink: Locator;
+  readonly loggedAsUsernameLink: Locator;
+  readonly deleteAccountLink: Locator;
+  readonly accountDeletedText: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -32,22 +37,22 @@ export class SignupPage {
     this.mrRadio = this.page.getByRole('radio', { name: 'Mr.' });
     this.mrsRadio = this.page.getByRole('radio', { name: 'Mrs.' });
     this.nameInput = this.page.getByRole('textbox', { name: 'Name *', exact: true });
-    this.emailInput = this.page.getByRole('textbox', { name: 'Name *', exact: true });
+    this.emailInput = this.page.getByRole('textbox', { name: 'Email *', exact: true });
     this.passwordInput = this.page.getByRole('textbox', { name: 'Password *' });
     this.daySelect = this.page.locator('#days');
     this.monthSelect = this.page.locator('#months');
     this.yearSelect = this.page.locator('#years');
     this.newsletterCheckbox = this.page.getByRole('checkbox', {
-      name: 'Sign up for our newsletter!',
+      name: 'newsletter!',
     });
     this.specialOffersCheckbox = this.page.getByRole('checkbox', {
-      name: 'Receive special offers from',
+      name: 'special offers',
     });
 
     this.firstNameInput = this.page.getByRole('textbox', { name: 'First name *' });
     this.lastNameInput = this.page.getByRole('textbox', { name: 'Last name *' });
     this.companyInput = this.page.getByRole('textbox', { name: 'Company', exact: true });
-    this.addressInput = this.page.getByRole('textbox', { name: 'Address * (Street address, P.' });
+    this.addressInput = this.page.getByRole('textbox', { name: 'Address *' });
     this.address2Input = this.page.getByRole('textbox', { name: 'Address 2' });
     this.countrySelect = this.page.getByLabel('Country *');
     this.stateInput = this.page.getByRole('textbox', { name: 'State *' });
@@ -55,22 +60,23 @@ export class SignupPage {
     this.zipcodeInput = this.page.locator('#zipcode');
     this.mobileNumberInput = this.page.getByRole('textbox', { name: 'Mobile Number *' });
     this.createAccountButton = this.page.getByRole('button', { name: 'Create Account' });
+    this.accountCreatedText = this.page.getByRole('heading', { name: 'Account Created!' });
+    this.continueLink = this.page.getByRole('link', { name: 'Continue' });
+    this.loggedAsUsernameLink = this.page.getByText('Logged in as');
+    this.deleteAccountLink = this.page.getByRole('link', { name: 'Delete Account' });
+    this.accountDeletedText = this.page.getByRole('heading', { name: 'Account Deleted!' });
   }
 
   async expectSignupPageVisible() {
     await expect(this.accountInfoText).toBeVisible();
   }
   async selectGender(gender?: 'Mr.' | 'Mrs.') {
-    switch (gender) {
-      case 'Mr.':
-        return await this.mrRadio.check();
-      case 'Mrs.':
-        return await this.mrsRadio.check();
-      default:
-        return;
+    if (gender === 'Mr.') {
+      await this.mrRadio.check();
+    } else {
+      await this.mrsRadio.check();
     }
   }
-
   async ensureNameAndEmailFilled(user: Pick<User, 'name' | 'email'>) {
     const currentName = await this.nameInput.inputValue();
     const currentEmail = await this.emailInput.inputValue();
@@ -132,7 +138,7 @@ export class SignupPage {
     await this.lastNameInput.fill(lastName);
   }
   async fillCompany(company: string) {
-    await this.passwordInput.fill(company);
+    await this.companyInput.fill(company);
   }
   async fillAddress(address: string) {
     await this.addressInput.fill(address);
@@ -155,7 +161,7 @@ export class SignupPage {
   async fillMobileNumber(mobile: string) {
     await this.mobileNumberInput.fill(mobile);
   }
-  async submitAccountInfoForm() {
+  async clickCreateAccountButton() {
     this.createAccountButton.click();
   }
   async fillAddressInfoForm(user: User) {
@@ -173,5 +179,21 @@ export class SignupPage {
     await this.fillCity(user.city);
     await this.fillZipcode(user.zipcode);
     await this.fillMobileNumber(user.mobileNumber);
+  }
+
+  async clickContinueButton() {
+    await expect(this.accountCreatedText).toBeVisible();
+    await this.continueLink.click();
+  }
+
+  async expectLoggedAsUsernameLinkVisible(user: Pick<User, 'name'>) {
+    await expect(this.loggedAsUsernameLink).toBeVisible();
+    await expect(this.loggedAsUsernameLink).toContainText(user.name);
+  }
+  async deleteAccount() {
+    await this.deleteAccountLink.click();
+    await expect(this.accountDeletedText).toBeVisible();
+    await this.continueLink.click();
+    await expect(this.page).toHaveURL('https://automationexercise.com/');
   }
 }
