@@ -14,6 +14,17 @@ export class SignupPage {
   readonly yearSelect: Locator;
   readonly newsletterCheckbox: Locator;
   readonly specialOffersCheckbox: Locator;
+  readonly firstNameInput: Locator;
+  readonly lastNameInput: Locator;
+  readonly companyInput: Locator;
+  readonly addressInput: Locator;
+  readonly address2Input: Locator;
+  readonly countrySelect: Locator;
+  readonly stateInput: Locator;
+  readonly cityInput: Locator;
+  readonly zipcodeInput: Locator;
+  readonly mobileNumberInput: Locator;
+  readonly createAccountButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -32,6 +43,18 @@ export class SignupPage {
     this.specialOffersCheckbox = this.page.getByRole('checkbox', {
       name: 'Receive special offers from',
     });
+
+    this.firstNameInput = this.page.getByRole('textbox', { name: 'First name *' });
+    this.lastNameInput = this.page.getByRole('textbox', { name: 'Last name *' });
+    this.companyInput = this.page.getByRole('textbox', { name: 'Company', exact: true });
+    this.addressInput = this.page.getByRole('textbox', { name: 'Address * (Street address, P.' });
+    this.address2Input = this.page.getByRole('textbox', { name: 'Address 2' });
+    this.countrySelect = this.page.getByLabel('Country *');
+    this.stateInput = this.page.getByRole('textbox', { name: 'State *' });
+    this.cityInput = this.page.getByRole('textbox', { name: 'City *' });
+    this.zipcodeInput = this.page.locator('#zipcode');
+    this.mobileNumberInput = this.page.getByRole('textbox', { name: 'Mobile Number *' });
+    this.createAccountButton = this.page.getByRole('button', { name: 'Create Account' });
   }
 
   async expectSignupPageVisible() {
@@ -48,7 +71,6 @@ export class SignupPage {
     }
   }
 
-  //TODO: Подумать о выносе типа User
   async ensureNameAndEmailFilled(user: Pick<User, 'name' | 'email'>) {
     const currentName = await this.nameInput.inputValue();
     const currentEmail = await this.emailInput.inputValue();
@@ -85,5 +107,71 @@ export class SignupPage {
     } else {
       await this.specialOffersCheckbox.uncheck();
     }
+  }
+  async fillAccountInfoForm(user: User) {
+    if (user.gender) {
+      await this.selectGender(user.gender);
+    }
+    await this.ensureNameAndEmailFilled(user);
+    await this.fillPassword(user.password);
+    if (user.dateOfBirth) {
+      await this.fillDateOfBirth(user.dateOfBirth);
+    }
+    if (user.newsletter) {
+      await this.setNewsletter(user.newsletter);
+    }
+    if (user.specialOffers) {
+      await this.setSpecialOffers(user.specialOffers);
+    }
+  }
+
+  async fillFirstName(name: string) {
+    await this.firstNameInput.fill(name);
+  }
+  async fillLastName(lastName: string) {
+    await this.lastNameInput.fill(lastName);
+  }
+  async fillCompany(company: string) {
+    await this.passwordInput.fill(company);
+  }
+  async fillAddress(address: string) {
+    await this.addressInput.fill(address);
+  }
+  async fillAddress2(address2: string) {
+    await this.address2Input.fill(address2);
+  }
+  async selectCountry(country: string) {
+    await this.countrySelect.selectOption(country);
+  }
+  async fillState(state: string) {
+    await this.stateInput.fill(state);
+  }
+  async fillCity(city: string) {
+    await this.cityInput.fill(city);
+  }
+  async fillZipcode(zipcode: string) {
+    await this.zipcodeInput.fill(zipcode);
+  }
+  async fillMobileNumber(mobile: string) {
+    await this.mobileNumberInput.fill(mobile);
+  }
+  async submitAccountInfoForm() {
+    this.createAccountButton.click();
+  }
+  async fillAddressInfoForm(user: User) {
+    await this.fillFirstName(user.name);
+    await this.fillLastName(user.lastName);
+    if (user.company) {
+      await this.fillCompany(user.company);
+    }
+    await this.fillAddress(user.address);
+    if (user.address2) {
+      await this.fillAddress2(user.address2);
+    }
+    await this.selectCountry(user.country);
+    await this.fillState(user.state);
+    await this.fillCity(user.city);
+    await this.fillZipcode(user.zipcode);
+    await this.fillMobileNumber(user.mobileNumber);
   }
 }
