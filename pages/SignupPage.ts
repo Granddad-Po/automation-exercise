@@ -28,7 +28,6 @@ export class SignupPage {
   readonly continueLink: Locator;
 
   constructor(private page: Page) {
-    this.page = page;
     this.accountInfoText = this.page.getByText('Enter Account Information');
     this.mrRadio = this.page.getByRole('radio', { name: 'Mr.' });
     this.mrsRadio = this.page.getByRole('radio', { name: 'Mrs.' });

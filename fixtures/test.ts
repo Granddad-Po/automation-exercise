@@ -19,7 +19,8 @@ type Fixtures = {
   homePage: MainPage;
   header: Header;
   userData: User;
-  registeredUser: User;
+  existingUser: User;
+  managedUser: User;
   loggedInUser: User;
 };
 
@@ -42,19 +43,23 @@ export const test = base.extend<Fixtures>({
     await use(userFactory());
   },
 
-  registeredUser: async ({ userData }, use) => {
+  existingUser: async ({ userData }, use) => {
     await createUser(userData);
+    await use(userData);
+  },
+
+  managedUser: async ({ existingUser }, use) => {
     try {
-      await use(userData);
+      await use(existingUser);
     } finally {
-      await deleteUser(userData);
+      await deleteUser(existingUser);
     }
   },
 
-  loggedInUser: async ({ app, homePage, registeredUser }, use) => {
+  loggedInUser: async ({ app, homePage, managedUser }, use) => {
     await app.main.openSignupLoginPage();
-    await app.login.loginAs(registeredUser);
-    await use(registeredUser);
+    await app.login.loginAs(managedUser);
+    await use(managedUser);
   },
 });
 

@@ -5,7 +5,6 @@ export class MainPage {
   readonly signupLoginLink: Locator;
 
   constructor(private page: Page) {
-    this.page = page;
     this.logoLink = this.page.getByRole('link', {
       name: 'Website for automation',
     });

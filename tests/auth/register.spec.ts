@@ -1,9 +1,8 @@
 import { test } from '../../fixtures/test';
 
 test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
-  test('User can register with valid data', async ({ app, userData }) => {
+  test('User can register with valid data', async ({ app, homePage, userData }) => {
     await test.step('Open signup page', async () => {
-      await app.main.openMainPage();
       await app.main.openSignupLoginPage();
     });
     await test.step('Fill and submit signup form', async () => {
@@ -21,7 +20,6 @@ test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
     });
     await test.step('Delete account', async () => {
       await app.header.deleteAccount();
-      await app.main.openSignupLoginPage();
     });
   });
 });
