@@ -5,16 +5,19 @@ import { LoginPage } from '../pages/LoginPage';
 import { SignupPage } from '../pages/SignupPage';
 import { userFactory } from '../test-data/userFactory';
 import { createUser, deleteUser } from '../helpers/api/users';
+import { Header } from '../components/Header';
 
 type App = {
   main: MainPage;
   login: LoginPage;
   signup: SignupPage;
+  header: Header;
 };
 
 type Fixtures = {
   app: App;
   homePage: MainPage;
+  header: Header;
   userData: User;
   registeredUser: User;
   loggedInUser: User;
@@ -26,6 +29,7 @@ export const test = base.extend<Fixtures>({
       main: new MainPage(page),
       login: new LoginPage(page),
       signup: new SignupPage(page),
+      header: new Header(page),
     });
   },
 

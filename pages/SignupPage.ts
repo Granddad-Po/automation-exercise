@@ -2,7 +2,6 @@ import { expect, Locator, Page } from '@playwright/test';
 import type { User } from '../types/user';
 
 export class SignupPage {
-  readonly page: Page;
   readonly accountInfoText: Locator;
   readonly mrRadio: Locator;
   readonly mrsRadio: Locator;
@@ -27,11 +26,8 @@ export class SignupPage {
   readonly createAccountButton: Locator;
   readonly accountCreatedText: Locator;
   readonly continueLink: Locator;
-  readonly loggedAsUsernameLink: Locator;
-  readonly deleteAccountLink: Locator;
-  readonly accountDeletedText: Locator;
 
-  constructor(page: Page) {
+  constructor(private page: Page) {
     this.page = page;
     this.accountInfoText = this.page.getByText('Enter Account Information');
     this.mrRadio = this.page.getByRole('radio', { name: 'Mr.' });
@@ -62,9 +58,6 @@ export class SignupPage {
     this.createAccountButton = this.page.getByRole('button', { name: 'Create Account' });
     this.accountCreatedText = this.page.getByRole('heading', { name: 'Account Created!' });
     this.continueLink = this.page.getByRole('link', { name: 'Continue' });
-    this.loggedAsUsernameLink = this.page.getByText('Logged in as');
-    this.deleteAccountLink = this.page.getByRole('link', { name: 'Delete Account' });
-    this.accountDeletedText = this.page.getByRole('heading', { name: 'Account Deleted!' });
   }
 
   async expectAccountInfoPageVisible() {
@@ -192,15 +185,5 @@ export class SignupPage {
   }
   async clickContinue() {
     await this.continueLink.click();
-  }
-  async expectLoggedInAs(name: string) {
-    await expect(this.loggedAsUsernameLink).toBeVisible();
-    await expect(this.loggedAsUsernameLink).toContainText(name);
-  }
-  async deleteAccount() {
-    await this.deleteAccountLink.click();
-    await expect(this.accountDeletedText).toBeVisible();
-    await this.continueLink.click();
-    await expect(this.page).toHaveURL('/');
   }
 }

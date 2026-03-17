@@ -17,10 +17,11 @@ test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
     await test.step('Check that account created successful', async () => {
       await app.signup.expectAccountCreated();
       await app.signup.clickContinue();
-      await app.signup.expectLoggedInAs(userData.name);
+      await app.header.expectLoggedInAs(userData.name);
     });
     await test.step('Delete account', async () => {
-      await app.signup.deleteAccount();
+      await app.header.deleteAccount();
+      await app.main.openSignupLoginPage();
     });
   });
 });

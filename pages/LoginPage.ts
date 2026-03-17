@@ -2,7 +2,6 @@ import { Locator, Page, expect } from '@playwright/test';
 import { User } from '../types/user';
 
 export class LoginPage {
-  readonly page: Page;
   readonly loginForm: Locator;
   readonly loginTitle: Locator;
   readonly loginEmailInput: Locator;
@@ -14,7 +13,7 @@ export class LoginPage {
   readonly signupEmailInput: Locator;
   readonly signupButton: Locator;
 
-  constructor(page: Page) {
+  constructor(private page: Page) {
     this.page = page;
     this.loginForm = page.locator('form').filter({
       has: page.getByRole('heading', { name: 'Login to your account' }),

@@ -1,11 +1,10 @@
 import { Locator, Page, expect } from '@playwright/test';
 
 export class MainPage {
-  readonly page: Page;
   readonly logoLink: Locator;
   readonly signupLoginLink: Locator;
 
-  constructor(page: Page) {
+  constructor(private page: Page) {
     this.page = page;
     this.logoLink = this.page.getByRole('link', {
       name: 'Website for automation',
