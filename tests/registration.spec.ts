@@ -1,24 +1,7 @@
-import type { User } from './../types/user';
 import { test } from '../fixtures/app';
+import { userFactory } from '../test-data/userFactory';
 
-const user: User = {
-  name: 'Vito',
-  email: 'vito@email.com',
-  gender: 'Mr.',
-  password: 'Qwerty123',
-  dateOfBirth: { day: '15', month: 'July', year: '1990' },
-  newsletter: true,
-  specialOffers: false,
-  firstName: 'Vittorio',
-  lastName: 'Scaletta',
-  company: 'Mafia II',
-  address: 'New York, NY 10004',
-  country: 'United States',
-  state: 'New York',
-  city: 'NYC',
-  zipcode: '10004',
-  mobileNumber: '+12123633200',
-};
+const user = userFactory();
 
 test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
   test('User can register with valid data', async ({ app }) => {
