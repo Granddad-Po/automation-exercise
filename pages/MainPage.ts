@@ -16,13 +16,10 @@ export class MainPage {
   }
 
   async openMainPage() {
-    await this.page.goto('https://automationexercise.com/');
+    await this.page.goto('/');
     await expect(this.logoLink).toBeVisible();
   }
-  async expectSignupLoginLinkVisible() {
-    await expect(this.signupLoginLink).toBeVisible();
-  }
-  async clickSignupLoginLink() {
+  async openSignupLoginPage() {
     await this.signupLoginLink.click();
   }
 }

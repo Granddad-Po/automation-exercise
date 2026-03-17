@@ -67,7 +67,7 @@ export class SignupPage {
     this.accountDeletedText = this.page.getByRole('heading', { name: 'Account Deleted!' });
   }
 
-  async expectSignupPageVisible() {
+  async expectAccountInfoPageVisible() {
     await expect(this.accountInfoText).toBeVisible();
   }
   async selectGender(gender?: 'Mr.' | 'Mrs.') {
@@ -161,7 +161,7 @@ export class SignupPage {
   async fillMobileNumber(mobile: string) {
     await this.mobileNumberInput.fill(mobile);
   }
-  async clickCreateAccountButton() {
+  async clickCreateAccount() {
     this.createAccountButton.click();
   }
   async fillAddressInfoForm(user: User) {
@@ -181,19 +181,26 @@ export class SignupPage {
     await this.fillMobileNumber(user.mobileNumber);
   }
 
-  async clickContinueButton() {
-    await expect(this.accountCreatedText).toBeVisible();
-    await this.continueLink.click();
+  async completeRegistration(user: User) {
+    await this.fillAccountInfoForm(user);
+    await this.fillAddressInfoForm(user);
+    await this.clickCreateAccount();
   }
 
-  async expectLoggedAsUsernameLinkVisible(user: Pick<User, 'name'>) {
+  async expectAccountCreated() {
+    await expect(this.accountCreatedText).toBeVisible();
+  }
+  async clickContinue() {
+    await this.continueLink.click();
+  }
+  async expectLoggedInAs(name: string) {
     await expect(this.loggedAsUsernameLink).toBeVisible();
-    await expect(this.loggedAsUsernameLink).toContainText(user.name);
+    await expect(this.loggedAsUsernameLink).toContainText(name);
   }
   async deleteAccount() {
     await this.deleteAccountLink.click();
     await expect(this.accountDeletedText).toBeVisible();
     await this.continueLink.click();
-    await expect(this.page).toHaveURL('https://automationexercise.com/');
+    await expect(this.page).toHaveURL('/');
   }
 }

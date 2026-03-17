@@ -29,7 +29,7 @@ export class LoginPage {
     this.signupButton = this.page.getByRole('button', { name: 'Signup' });
   }
 
-  async expectLoginPageVisible() {
+  async expectSignupPageVisible() {
     await expect(this.signupTitle).toBeVisible();
   }
 
@@ -46,9 +46,10 @@ export class LoginPage {
   async clickSignupButton() {
     await this.signupButton.click();
   }
-  async fillSignupForm(user: Pick<User, 'name' | 'email'>) {
+  async signupAs(user: Pick<User, 'name' | 'email'>) {
     await this.fillNameSignup(user.name);
     await this.fillEmailSignup(user.email);
     await this.checkFilledSignupForm(user);
+    await this.clickSignupButton();
   }
 }
