@@ -7,6 +7,7 @@ export class LoginPage {
   readonly loginTitle: Locator;
   readonly loginEmailInput: Locator;
   readonly loginPasswordInput: Locator;
+  readonly loginButton: Locator;
   readonly signupForm: Locator;
   readonly signupTitle: Locator;
   readonly signupNameInput: Locator;
@@ -21,6 +22,7 @@ export class LoginPage {
     this.loginTitle = this.page.getByRole('heading', { name: 'Login to your account' });
     this.loginEmailInput = this.loginForm.getByPlaceholder('Email Address');
     this.loginPasswordInput = this.loginForm.getByPlaceholder('Password');
+    this.loginButton = this.page.getByRole('button', { name: 'Login' });
 
     this.signupForm = page.locator('form').filter({ hasText: 'Signup' });
     this.signupTitle = this.page.getByRole('heading', { name: 'New User Signup!' });
@@ -43,13 +45,28 @@ export class LoginPage {
     await expect(this.signupNameInput).toHaveValue(user.name);
     await expect(this.signupEmailInput).toHaveValue(user.email);
   }
-  async clickSignupButton() {
+  async clickSignup() {
     await this.signupButton.click();
   }
   async signupAs(user: Pick<User, 'name' | 'email'>) {
     await this.fillNameSignup(user.name);
     await this.fillEmailSignup(user.email);
     await this.checkFilledSignupForm(user);
-    await this.clickSignupButton();
+    await this.clickSignup();
+  }
+
+  async fillEmailLogin(email: string) {
+    await this.loginEmailInput.fill(email);
+  }
+  async fillPasswordLogin(password: string) {
+    await this.loginPasswordInput.fill(password);
+  }
+  async clickLogin() {
+    await this.loginButton.click();
+  }
+  async loginAs(user: Pick<User, 'email' | 'password'>) {
+    await this.fillEmailLogin(user.email);
+    await this.fillPasswordLogin(user.password);
+    await this.clickLogin();
   }
 }

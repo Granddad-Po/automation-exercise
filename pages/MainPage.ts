@@ -17,6 +17,8 @@ export class MainPage {
 
   async openMainPage() {
     await this.page.goto('/');
+  }
+  async expectMainPageVisible() {
     await expect(this.logoLink).toBeVisible();
   }
   async openSignupLoginPage() {
