@@ -11,6 +11,7 @@ export class LoginPage {
   readonly signupNameInput: Locator;
   readonly signupEmailInput: Locator;
   readonly signupButton: Locator;
+  readonly emailAlreadyExistError: Locator;
 
   constructor(private page: Page) {
     this.loginTitle = this.page.getByRole('heading', { name: 'Login to your account' });
@@ -25,6 +26,7 @@ export class LoginPage {
     this.signupNameInput = this.page.getByTestId('signup-name');
     this.signupEmailInput = this.page.getByTestId('signup-email');
     this.signupButton = this.page.getByRole('button', { name: 'Signup' });
+    this.emailAlreadyExistError = this.page.getByText('Email Address already exist!');
   }
 
   async expectSignupPageVisible() {
@@ -50,6 +52,9 @@ export class LoginPage {
     await this.checkFilledSignupForm(user);
     await this.clickSignup();
   }
+  async expectEmailAlreadyExistErrorVisible() {
+    await expect(this.emailAlreadyExistError).toBeVisible();
+  }
 
   async fillEmailLogin(email: string) {
     await this.loginEmailInput.fill(email);
@@ -65,7 +70,7 @@ export class LoginPage {
     await this.fillPasswordLogin(user.password);
     await this.clickLogin();
   }
-  async expectLoginErrorVisible() {
+  async expectIncorrectEmailOrPasswordErrorVisible() {
     await expect(this.incorrectEmailOrPasswordError).toBeVisible();
   }
 }

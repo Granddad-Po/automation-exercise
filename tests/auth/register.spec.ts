@@ -2,24 +2,32 @@ import { test } from '../../fixtures/test';
 
 test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
   test('User can register with valid data', async ({ app, homePage, userData }) => {
-    await test.step('Open signup page', async () => {
+    await test.step('Register new user', async () => {
       await app.main.openSignupLoginPage();
-    });
-    await test.step('Fill and submit signup form', async () => {
+
       await app.login.expectSignupPageVisible();
       await app.login.signupAs(userData);
-    });
-    await test.step('Fill account info and address form', async () => {
+
       await app.signup.expectAccountInfoPageVisible();
       await app.signup.completeRegistration(userData);
     });
-    await test.step('Check that account created successful', async () => {
+
+    await test.step('Verify account created and logged in', async () => {
       await app.signup.expectAccountCreated();
-      await app.signup.clickContinue();
+      await app.signup.clickContinueButton();
       await app.header.expectLoggedInAs(userData.name);
     });
+
     await test.step('Delete account', async () => {
       await app.header.deleteAccount();
     });
+  });
+  //TODO: Нужны ли проверки отображения страницы после перехода на нее?
+  test("User can't register with existing email", async ({ app, homePage, managedUser }) => {
+    await app.main.openSignupLoginPage();
+    await app.login.expectSignupPageVisible();
+    await app.login.signupAs(managedUser);
+
+    await app.login.expectEmailAlreadyExistErrorVisible();
   });
 });

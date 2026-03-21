@@ -25,6 +25,6 @@ test.describe('Login', { tag: ['@smoke', '@login'] }, () => {
 
     await app.login.expectSignupPageVisible();
     await app.login.loginAs({ email: managedUser.email, password: 'wrong-password' });
-    await app.login.expectLoginErrorVisible();
+    await app.login.expectIncorrectEmailOrPasswordErrorVisible();
   });
 });

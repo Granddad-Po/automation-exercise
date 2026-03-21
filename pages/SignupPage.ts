@@ -182,7 +182,7 @@ export class SignupPage {
   async expectAccountCreated() {
     await expect(this.accountCreatedText).toBeVisible();
   }
-  async clickContinue() {
+  async clickContinueButton() {
     await this.continueLink.click();
   }
 }
