@@ -6,6 +6,7 @@ export class LoginPage {
   readonly loginEmailInput: Locator;
   readonly loginPasswordInput: Locator;
   readonly loginButton: Locator;
+  readonly incorrectEmailOrPasswordError: Locator;
   readonly signupTitle: Locator;
   readonly signupNameInput: Locator;
   readonly signupEmailInput: Locator;
@@ -16,6 +17,9 @@ export class LoginPage {
     this.loginEmailInput = this.page.getByTestId('login-email');
     this.loginPasswordInput = this.page.getByTestId('login-password');
     this.loginButton = this.page.getByRole('button', { name: 'Login' });
+    this.incorrectEmailOrPasswordError = this.page.getByText(
+      'Your email or password is incorrect!',
+    );
 
     this.signupTitle = this.page.getByRole('heading', { name: 'New User Signup!' });
     this.signupNameInput = this.page.getByTestId('signup-name');
@@ -60,5 +64,8 @@ export class LoginPage {
     await this.fillEmailLogin(user.email);
     await this.fillPasswordLogin(user.password);
     await this.clickLogin();
+  }
+  async expectLoginErrorVisible() {
+    await expect(this.incorrectEmailOrPasswordError).toBeVisible();
   }
 }

@@ -16,4 +16,15 @@ test.describe('Login', { tag: ['@smoke', '@login'] }, () => {
 
     await app.header.deleteAccount();
   });
+  test("User can't login with incorrect email and password", async ({
+    app,
+    homePage,
+    managedUser,
+  }) => {
+    await app.main.openSignupLoginPage();
+
+    await app.login.expectSignupPageVisible();
+    await app.login.loginAs({ email: managedUser.email, password: 'wrong-password' });
+    await app.login.expectLoginErrorVisible();
+  });
 });
