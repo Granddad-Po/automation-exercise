@@ -1,12 +1,13 @@
 import { Contact } from './../types/contact';
+import { faker } from '@faker-js/faker';
 
 export function contactFactory(): Contact {
   const id = Date.now();
 
   return {
-    name: `User${id}`,
+    name: faker.person.firstName(),
     email: `user${id}@email.com`,
-    subject: 'Very important Title',
-    message: 'sdfsafasfdwsfsd sdfsdfwef dsfsdfwef ehdfgsdfwefsdfsdfw',
+    subject: faker.lorem.words(2),
+    message: faker.lorem.paragraph(4),
   };
 }
