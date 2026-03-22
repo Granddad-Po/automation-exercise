@@ -1,8 +1,7 @@
-import { errors, Locator, Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class MainPage {
   readonly logoLink: Locator;
-  readonly signupLoginLink: Locator;
   readonly consentPopup: Locator;
   readonly consentAcceptButton: Locator;
 
@@ -10,9 +9,7 @@ export class MainPage {
     this.logoLink = this.page.getByRole('link', {
       name: 'Website for automation',
     });
-    this.signupLoginLink = this.page.getByRole('link', {
-      name: 'Signup / Login',
-    });
+
     this.consentPopup = this.page.locator('.fc-consent-root');
     this.consentAcceptButton = this.page.locator('button.fc-cta-consent');
   }
@@ -24,9 +21,7 @@ export class MainPage {
   async expectMainPageVisible() {
     await expect(this.logoLink).toBeVisible();
   }
-  async openSignupLoginPage() {
-    await this.signupLoginLink.click();
-  }
+
   async dismissConsentPopupIfPresent() {
     if (await this.consentAcceptButton.isVisible({ timeout: 3000 })) {
       await this.consentAcceptButton.click();

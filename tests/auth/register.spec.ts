@@ -3,7 +3,7 @@ import { test } from '../../fixtures/test';
 test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
   test('User can register with valid data', async ({ app, homePage, userData }) => {
     await test.step('Register new user', async () => {
-      await app.main.openSignupLoginPage();
+      await app.header.openSignupLoginPage();
 
       await app.login.expectSignupPageVisible();
       await app.login.signupAs(userData);
@@ -22,9 +22,9 @@ test.describe('Registration', { tag: ['@smoke', '@register'] }, () => {
       await app.header.deleteAccount();
     });
   });
-  //TODO: Нужны ли проверки отображения страницы после перехода на нее?
+
   test("User can't register with existing email", async ({ app, homePage, managedUser }) => {
-    await app.main.openSignupLoginPage();
+    await app.header.openSignupLoginPage();
     await app.login.expectSignupPageVisible();
     await app.login.signupAs(managedUser);
 

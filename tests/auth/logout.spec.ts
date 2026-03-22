@@ -2,7 +2,7 @@ import { test } from '../../fixtures/test';
 
 test.describe('Logout', { tag: ['@smoke', '@logout'] }, () => {
   test('User can logout', async ({ app, homePage, managedUser }) => {
-    await app.main.openSignupLoginPage();
+    await app.header.openSignupLoginPage();
 
     await app.login.expectSignupPageVisible();
     await app.login.loginAs(managedUser);

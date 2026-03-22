@@ -6,6 +6,9 @@ export class Header {
   readonly accountDeletedText: Locator;
   readonly continueLink: Locator;
   readonly logoutLink: Locator;
+  readonly contactUsLink: Locator;
+  readonly signupLoginLink: Locator;
+  readonly homeLink: Locator;
 
   constructor(private page: Page) {
     this.loggedAsUsernameLink = this.page.getByText('Logged in as');
@@ -13,6 +16,11 @@ export class Header {
     this.accountDeletedText = this.page.getByRole('heading', { name: 'Account Deleted!' });
     this.continueLink = this.page.getByRole('link', { name: 'Continue' });
     this.logoutLink = this.page.getByRole('link', { name: 'Logout' });
+    this.contactUsLink = this.page.getByRole('link', { name: 'Contact us' });
+    this.signupLoginLink = this.page.getByRole('link', {
+      name: 'Signup / Login',
+    });
+    this.homeLink = this.page.getByRole('link', { name: 'Home' });
   }
 
   async expectLoggedInAs(name: string) {
@@ -33,5 +41,17 @@ export class Header {
     await expect(this.accountDeletedText).toBeVisible();
     await this.continueLink.click();
     await expect(this.page).toHaveURL('/');
+  }
+
+  async openSignupLoginPage() {
+    await this.signupLoginLink.click();
+  }
+
+  async openContactUsPage() {
+    await this.contactUsLink.click();
+  }
+
+  async openMainPage() {
+    await this.homeLink.click();
   }
 }

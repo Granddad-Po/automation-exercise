@@ -57,7 +57,7 @@ export const test = base.extend<Fixtures>({
   },
 
   loggedInUser: async ({ app, homePage, managedUser }, use) => {
-    await app.main.openSignupLoginPage();
+    await app.header.openSignupLoginPage();
     await app.login.loginAs(managedUser);
     await use(managedUser);
   },

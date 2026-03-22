@@ -6,7 +6,7 @@ test.describe('Login', { tag: ['@smoke', '@login'] }, () => {
     homePage,
     existingUser,
   }) => {
-    await app.main.openSignupLoginPage();
+    await app.header.openSignupLoginPage();
 
     await app.login.expectSignupPageVisible();
     await app.login.loginAs(existingUser);
@@ -21,7 +21,7 @@ test.describe('Login', { tag: ['@smoke', '@login'] }, () => {
     homePage,
     managedUser,
   }) => {
-    await app.main.openSignupLoginPage();
+    await app.header.openSignupLoginPage();
 
     await app.login.expectSignupPageVisible();
     await app.login.loginAs({ email: managedUser.email, password: 'wrong-password' });
