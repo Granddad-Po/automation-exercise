@@ -1,5 +1,8 @@
 import { expect, Locator, Page } from '@playwright/test';
 import { Contact } from '../types/contact';
+import path from 'path';
+
+const uploadFilePath = path.resolve(process.cwd(), 'resources/logo.png');
 
 export class ContacUsPage {
   readonly getInTouchTitle: Locator;
@@ -20,10 +23,10 @@ export class ContacUsPage {
     this.messageInput = this.page.getByTestId('message');
     this.fileInput = this.page.locator('input[name="upload_file"]');
     this.submitButton = this.page.getByTestId('submit-button');
-    this.successSubmitText = this.page.getByText(
-      'Success! Your details have been submitted successfully.',
-    );
-    this.goHomeLink = this.page.getByRole('link', { name: 'Home' });
+    this.successSubmitText = this.page
+      .locator('#contact-page')
+      .getByText('Success! Your details have');
+    this.goHomeLink = this.page.locator('a.btn-success', { hasText: 'Home' });
   }
 
   async verifyContactUsPageVisible() {
@@ -35,5 +38,21 @@ export class ContacUsPage {
     await this.emailInput.fill(contact.email);
     await this.subjectInput.fill(contact.subject);
     await this.messageInput.fill(contact.message);
+    await this.fileInput.setInputFiles(uploadFilePath);
+  }
+
+  async submitForm() {
+    this.page.once('dialog', async (dialog) => {
+      await dialog.accept();
+    });
+    await this.submitButton.click();
+  }
+
+  async verifySuccessTextVisible() {
+    await expect(this.successSubmitText).toBeVisible();
+  }
+
+  async clickHomeButton() {
+    await this.goHomeLink.click();
   }
 }

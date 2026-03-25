@@ -50,6 +50,11 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
 
+    {
+      name: 'chrome',
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    },
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',

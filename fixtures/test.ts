@@ -1,16 +1,20 @@
 import { test as base } from '@playwright/test';
 import type { User } from '../types/user';
+import { Contact } from '../types/contact';
 import { MainPage } from '../pages/MainPage';
 import { LoginPage } from '../pages/LoginPage';
 import { SignupPage } from '../pages/SignupPage';
 import { userFactory } from '../test-data/userFactory';
+import { contactFactory } from '../test-data/contactFactory';
 import { createUser, deleteUser } from '../helpers/api/users';
 import { Header } from '../components/Header';
+import { ContacUsPage } from '../pages/ContactUsPage';
 
 type App = {
   main: MainPage;
   login: LoginPage;
   signup: SignupPage;
+  contact: ContacUsPage;
   header: Header;
 };
 
@@ -19,6 +23,7 @@ type Fixtures = {
   homePage: MainPage;
   header: Header;
   userData: User;
+  contactData: Contact;
   existingUser: User;
   managedUser: User;
   loggedInUser: User;
@@ -30,6 +35,7 @@ export const test = base.extend<Fixtures>({
       main: new MainPage(page),
       login: new LoginPage(page),
       signup: new SignupPage(page),
+      contact: new ContacUsPage(page),
       header: new Header(page),
     });
   },
@@ -41,6 +47,10 @@ export const test = base.extend<Fixtures>({
 
   userData: async ({}, use) => {
     await use(userFactory());
+  },
+
+  contactData: async ({}, use) => {
+    await use(contactFactory());
   },
 
   existingUser: async ({ userData }, use) => {
