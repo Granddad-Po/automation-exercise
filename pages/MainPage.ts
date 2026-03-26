@@ -1,13 +1,13 @@
 import { Locator, Page, expect } from '@playwright/test';
 
 export class MainPage {
-  readonly logoLink: Locator;
+  readonly featuresItemsTitle: Locator;
   readonly consentPopup: Locator;
   readonly consentAcceptButton: Locator;
 
   constructor(private page: Page) {
-    this.logoLink = this.page.getByRole('link', {
-      name: 'Website for automation',
+    this.featuresItemsTitle = this.page.getByRole('heading', {
+      name: 'Features Items',
     });
 
     this.consentPopup = this.page.locator('.fc-consent-root');
@@ -19,7 +19,7 @@ export class MainPage {
     await this.dismissConsentPopupIfPresent();
   }
   async expectMainPageVisible() {
-    await expect(this.logoLink).toBeVisible();
+    await expect(this.featuresItemsTitle).toBeVisible();
     //TODO: Исправить Expected: "https://automationexercise.com/" Received: "https://automationexercise.com/login"
     //await expect(this.page).toHaveURL('https://automationexercise.com/');
   }

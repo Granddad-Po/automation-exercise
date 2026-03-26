@@ -13,6 +13,6 @@ test.describe('Logout', { tag: ['@smoke', '@logout'] }, () => {
     await app.header.expectLogoutButtonVisible();
     await app.header.clickLogoutButton();
 
-    await app.main.expectMainPageVisible();
+    await app.login.expectSignupPageVisible();
   });
 });

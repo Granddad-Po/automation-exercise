@@ -9,6 +9,7 @@ export class Header {
   readonly contactUsLink: Locator;
   readonly signupLoginLink: Locator;
   readonly homeLink: Locator;
+  readonly testCasesLink: Locator;
 
   constructor(private page: Page) {
     this.loggedAsUsernameLink = this.page.getByText('Logged in as');
@@ -21,6 +22,7 @@ export class Header {
       name: 'Signup / Login',
     });
     this.homeLink = this.page.getByRole('link', { name: 'Home' });
+    this.testCasesLink = this.page.getByRole('link', { name: ' Test Cases' });
   }
 
   async expectLoggedInAs(name: string) {
@@ -53,5 +55,9 @@ export class Header {
 
   async openMainPage() {
     await this.homeLink.click();
+  }
+
+  async openTestCasesPage() {
+    await this.testCasesLink.click();
   }
 }
