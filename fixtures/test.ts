@@ -9,13 +9,15 @@ import { contactFactory } from '../test-data/contactFactory';
 import { createUser, deleteUser } from '../helpers/api/users';
 import { Header } from '../components/Header';
 import { ContacUsPage } from '../pages/ContactUsPage';
+import { ProductsPage } from '../pages/ProductsPage';
 
 type App = {
+  header: Header;
   main: MainPage;
   login: LoginPage;
   signup: SignupPage;
+  product: ProductsPage;
   contact: ContacUsPage;
-  header: Header;
 };
 
 type Fixtures = {
@@ -32,11 +34,12 @@ type Fixtures = {
 export const test = base.extend<Fixtures>({
   app: async ({ page }, use) => {
     await use({
+      header: new Header(page),
       main: new MainPage(page),
       login: new LoginPage(page),
       signup: new SignupPage(page),
+      product: new ProductsPage(page),
       contact: new ContacUsPage(page),
-      header: new Header(page),
     });
   },
 
